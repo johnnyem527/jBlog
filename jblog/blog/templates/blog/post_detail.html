@@ -1,0 +1,51 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+    <div class="loader">
+        <h1 class="posttitle">{{ post.title }}</h1>
+    </div>
+    {% if post.published_date %}
+        <div class="date postdate">
+            {{ post.published_date|date:'Y年m月d日' }}
+        </div>
+    {% else %}
+        <a class="btn btn-success" href="{% url 'post_publish' pk=post.pk %}">发布</a>
+    {% endif %}
+
+    <p class="postcontent">{{ post.text|safe|linebreaksbr }}</p>
+
+    {% if user.is_authenticated %}
+        <a class="btn btn-warning" href="{% url 'post_edit' pk=post.pk %}">
+            修改
+        </a>
+        <a class="btn btn-danger" href="{% url 'post_remove' pk=post.pk %}">
+            删除
+        </a>
+    {% endif %}
+
+    <hr>
+    <a class="btn btn-info btn-comment" href="{% url 'add_comment_to_post' pk=post.pk %}">评论</a>
+
+    <div class="container">
+        {% for comment in post.comments.all %}
+        <br>
+        {% if user.is_authenticated or comment.approved_comment %}
+            {{ comment.create_date|date:'Y年m月d日' }}
+            {% if not comment.approved_comment %}
+            <a class="btn btn-danger" href="{% url 'comment_remove' pk=comment.pk %}">
+                删除
+            </a>
+            <a class="btn btn-success" href="{% url 'comment_approve' pk=comment.pk %}">
+                确认
+            </a>
+            {% endif %}
+
+            <p>{{comment.text|safe|linebreaks}}</p>
+            <p>作者：{{comment.author}}</p>
+
+        {% endif %}
+        {% empty %}
+        <p>没有评论！</p>
+        {% endfor %}
+    </div>
+
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+    <h1>写评论</h1>
+    <form class="post-form" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default">发布评论</button>
+    </form>
+    <script>
+        var editor = new MediumEditor('.editable');
+    </script>
+{% endblock %}
