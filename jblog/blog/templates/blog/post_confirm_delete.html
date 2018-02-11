@@ -4,7 +4,6 @@
         {% csrf_token %}
         <p>确定要删除吗 {{ object }}？</p>
         <input type="submit" class="btn btn-danger" value="确认">
+        <a href="{% url 'post_detail' pk=post.pk %}" type="button" class="btn btn-primary">取消</a>
     </form>
-
-
 {% endblock %}
