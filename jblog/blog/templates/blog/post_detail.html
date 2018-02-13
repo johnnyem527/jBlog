@@ -5,7 +5,9 @@
     </div>
     {% if post.published_date %}
         <div class="date postdate">
-            {{ post.published_date|date:'Y年m月d日' }}
+            <span>{{ post.published_date|date:'Y年m月d日' }}</span>
+            <span>{{ post.published_date|date:'Y年m月d日' }}</span>
+            <span>{{ post.published_date|date:'Y年m月d日' }}</span>
         </div>
     {% else %}
         <a class="btn btn-success" href="{% url 'post_publish' pk=post.pk %}">发布</a>

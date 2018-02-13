@@ -24,6 +24,8 @@
         <a class="p-2 text-dark" href="{% url 'about' %}">关于</a>
         <a class="p-2 text-dark" href="{% url 'post_new' %}">写博客</a>
         <a class="p-2 text-dark" href="{% url 'post_draft_list' %}">草稿</a>
+        <a class="p-2 text-dark" href="{% url 'categories' %}">分类</a>
+        <a class="p-2 text-dark" href="{% url 'archives' %}">归档</a>
         <a>你好: {{ user.username }}</a>
           {% endif %}
       </nav>

@@ -13,4 +13,8 @@ urlpatterns = [
     re_path(r'^comment/(?P<pk>\d+)/approve/$', views.comment_approve, name='comment_approve'),
     re_path(r'^comment/(?P<pk>\d+)/remove/$', views.comment_remove, name='comment_remove'),
     re_path(r'^post/(?P<pk>\d+)/publish/$', views.post_publish, name='post_publish'),
+    re_path(r'^archives/$', views.archives, name='archives'),
+    re_path(r'^archives/(?P<year>[0-9]{4})/(?P<month>[0-9]{1,2})/(?P<day>[0-9]{1,2})$', views.archive, name='archive'),
+    re_path(r'^category/$', views.categories, name='categories'),
+    re_path(r'^category/(?P<pk>[0-9]+)/$', views.category, name='category'),
 ]

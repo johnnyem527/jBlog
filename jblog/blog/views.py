@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from blog.models import Post, Comment
+from blog.models import Post, Comment, Category
 from blog.forms import PostForm, CommentForm
 from django.views.generic import (TemplateView,
                                   ListView,
@@ -11,10 +11,20 @@ from django.views.generic import (TemplateView,
                                   CreateView,
                                   UpdateView,
                                   DeleteView)
-
+##########################################
+##########################################
+############## General Module ############
+##########################################
+##########################################
 # 关于（简单的模板视图）
 class AboutView(TemplateView):
     template_name = 'about.html'
+
+##########################################
+##########################################
+############## Post Module ###############
+##########################################
+##########################################
 
 '''
 博客列表（继承列表视图）
@@ -25,6 +35,7 @@ field__lookuptype = value ----> __lte = Less than or equal to.
 class PostListView(ListView):
     # default context_object_name is post_list
     model = Post
+    paginate_by = 2
 
     def get_queryset(self):
         return Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
@@ -70,8 +81,13 @@ class DraftListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return Post.objects.filter(published_date__isnull=True).order_by('create_date')
 
-#######################
-#######################
+
+##########################################
+##########################################
+############## Comment Module ############
+##########################################
+##########################################
+
 @login_required
 def post_publish(request, pk):
     post = get_object_or_404(Post, pk=pk)
@@ -117,7 +133,43 @@ def comment_remove(request, pk):
     comment.delete()
     return redirect('post_detail', pk=post_pk)
 
+##########################################
+##########################################
+############## Category Module ###########
+##########################################
+##########################################
 
+def categories(request):
+    categories = Category.objects.all()
+    return render(request, 'post_categories.html', context={'categories': categories})
+
+def category(request, pk):
+    # 记得在开始部分导入 Category 类
+    cate = get_object_or_404(Category, pk=pk)
+    post_list = Post.objects.filter(category=cate).order_by('-published_date')
+    return render(request, 'post_category.html', context={'post_list': post_list})
+
+##########################################
+##########################################
+############## Category Module ###########
+##########################################
+##########################################
+def archives(request):
+    dates = Post.objects.values('published_date').order_by('-published_date')
+    return render(request, 'post_archives.html', context={'dates': dates})
+
+def archive(request, year, month, day):
+    post_list = Post.objects.filter(published_date__year=year,
+                                    published_date__month=month,
+                                    published_date__day=day,
+                                    ).order_by('-published_date')
+    return render(request, 'post_archive.html', context={'post_list': post_list})
+
+##########################################
+##########################################
+############### Tag Module ###############
+##########################################
+##########################################
 
 
 

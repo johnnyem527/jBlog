@@ -1,0 +1,9 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+<div>
+    {% for date in dates %}
+    <p>{{ date.published_date|date:'Y年m月d日' }}</p>
+    {% endfor %}
+</div>
+
+{% endblock %}
