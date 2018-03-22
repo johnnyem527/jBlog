@@ -1,4 +1,3 @@
-<!-- Single Post -->
 <section class="section extra-margins pb-3 text-center text-lg-left">
     {% for post in post_list %}
     <div class="row">
@@ -34,8 +33,10 @@
                     <p class="font-small grey-text">
                         <i class="fa fa-eye"></i>
                         <span class="mr-2">4</span>
-                        <i class="fa fa-comments"></i>
-                        <span>9</span>
+                        <a href="{% url 'post_detail' pk=post.pk %}">
+                            <i class="fa fa-comments"></i>
+                            <span>{{ post.approve_comments.count }}</span>
+                        </a>
                     </p>
                 </div>
             </div>

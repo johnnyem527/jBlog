@@ -1,0 +1,34 @@
+{% if is_paginated %}
+<nav>
+    <ul class="pagination pg-blue">
+        <!--Arrow left-->
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link" aria-label="Previous" href="?page={{ page_obj.previous_page_number }}">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">上页</span>
+            </a>
+        </li>
+        {% endif %}
+
+        <!--Numbers-->
+        {% for i in page_obj.paginator.page_range %}
+            {% if page_obj.number == i %}
+                <li class="page-item active"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+            {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        <!--Arrow right-->
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" aria-label="Next" href="?page={{ page_obj.next_page_number }}">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">下页</span>
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}

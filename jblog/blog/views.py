@@ -110,6 +110,8 @@ def add_comment_to_post(request, pk):
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
+            # 这里是表单的save()，而不是模型的save()
+            # 而且由于commit=False, 因此在调用comment.save()之前不会保存数据
             comment = form.save(commit=False)
             #comment.post外键
             comment.post = post
